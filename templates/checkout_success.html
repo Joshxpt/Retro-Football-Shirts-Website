@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <p></p>
+                    <img src="{{ url_for('static', filename='success_icon.png') }}" class="img-fluid mt-3" alt="Success Icon" height="100" width="100">
+                    <h1 class="card-title">Checkout Successful!</h1>
+                    <p class="card-text">Your payment was successful!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

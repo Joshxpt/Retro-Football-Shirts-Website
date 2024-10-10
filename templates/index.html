@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h3>Welcome to this store where you can buy the best retro football shirts</h3>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <form action="" method="get" class="form-inline">
+                <div class="form-group mr-2">
+                    <label for="sort_by">Sort by:</label>
+                    <select name="sort_by" id="sort_by" class="form-control">
+                        <option value="name">Name</option>
+                        <option value="price">Price</option>
+                        <option value="environmental_impact">Environmental Impact</option>
+                    </select>
+                </div>
+                <div class="form-group mx-2">
+                    <input type="text" name="search" id="search" class="form-control" placeholder="Search" value="{{ request.args.get('search', '') }}">
+                </div>
+                <button type="submit" class="btn btn-primary" style="background-color: black;">Sort/Search</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="row">
+        {% for shirt in retro_shirts %}
+        <div class="col-md-4">
+            <div class="product-box text-center">
+                <a href="{{ url_for('singleProductPage', shirtID=shirt.id) }}" style="color: black;">
+                    <h4>{{ shirt.name }}</h4>
+                    <img src="{{ url_for('static', filename=shirt.image) }}" alt="{{ shirt.name }}" class="img-fluid" style="max-width: 100%; height: auto; width: 150px; height: 150px;">
+                </a>
+                <p>{{ shirt.description[:40] }}{% if shirt.description|length > 40 %}...{% endif %}</p>
+                <p>Environmental Impact: {{ shirt.environmental_impact }}</p>
+                <p>£{{ shirt.price }}</p>
+                <div class="description-placeholder" data-shirt-id="{{ shirt.id }}"></div>
+                <form action="{{ url_for('addToBasket', shirtID=shirt.id) }}" method="post">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ form.hidden_tag() }}
+                            {{ form.quantity(class="form-control") }}
+                        </div>
+                        <div class="col-md-8" style="padding-left: 0;">
+                            <button type="submit" class="btn btn-primary" style="background-color: black; width: 100%;">Add to Basket</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.product-box').hover(function() {
+            var shirtID = $(this).find('.description-placeholder').data('shirt-id');
+            var description = $(this).find('.description-placeholder');
+            $.ajax({
+                url: '/get-description/' + shirtID,
+                type: 'GET',
+                success: (response) => {
+                    description.text(response).addClass('show');
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        }, function() {
+            $(this).find('.description-placeholder').removeClass('show');
+        });
+    });
+</script>
+
+<style>
+    .description-placeholder {
+        position: absolute;
+        background-color: white;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        z-index: 9999;
+        display: none;
+        top: -10px; 
+    }
+    
+    .description-placeholder.show {
+        display: block;
+    }
+</style>
+
+{% endblock %}

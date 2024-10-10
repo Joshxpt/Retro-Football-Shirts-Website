@@ -1,0 +1,27 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+    Retro Football Shirts
+{% endblock %}
+
+{% block navbar %}
+    <nav style="background-color: black; padding: 15px;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between;">
+                <div style="flex: 1; padding-right: 70px; text-align: right;">
+                    <a href="{{ url_for('galleryPage') }}" style="color: white; font-size: 16px; text-decoration: none;">Home</a>
+                </div>
+                <div style="flex: 1; text-align: center;">
+                    <a href="{{ url_for('galleryPage') }}" style="color: white; font-size: 18px; text-decoration: none;">
+                        <img src="{{ url_for('static', filename='white-tshirt.png') }}" alt="White T-Shirt" style="height: 20px; vertical-align: middle; margin-right: 5px;">
+                        Retro Football Shirts
+                    </a>
+                </div>
+                <div style="flex: 1; text-align: left; padding-left: 70px;">
+                    <a href="{{ url_for('basketPage') }}" style="color: white; font-size: 16px; text-decoration: none;">Basket</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+{% endblock %}

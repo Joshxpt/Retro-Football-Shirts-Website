@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Basket</h1>
+    {% if basket_items %}
+        <ul class="list-group">
+            {% for item in basket_items %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="item-info d-flex align-items-center">
+                        <img src="{{ url_for('static', filename=item.shirt.image) }}" alt="{{ item.shirt.name }}" height="35" width="35" class="mr-3">
+                        <strong>{{ item.shirt.name }}</strong> - Quantity: {{ item.quantity }} - Price: £{{ item.quantity * item.shirt.price }}
+                    </div>
+                    <form method="post" action="{{ url_for('deleteItem', itemID=item.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm ml-2" style="background-color: black; border-color: black;">Remove</button>
+                    </form>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="total-price mt-4 text-center">
+            <p>Total Price: £{{ total_price }}</p>
+        </div>
+        <div class="checkout-button mt-4 text-center">
+            <a href="{{ url_for('checkoutPage') }}" class="btn btn-primary" style="background-color: black;">Checkout</a>
+        </div>
+    {% else %}
+        <div class="alert alert-danger text-center" role="alert">
+            Your basket is empty.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+

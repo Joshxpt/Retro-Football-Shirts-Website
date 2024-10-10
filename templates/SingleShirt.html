@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>{{ retro_shirt.name }}</h1>
+            <img src="{{ url_for('static', filename=retro_shirt.image) }}" alt="{{ retro_shirt.name }}" style="max-width: 300px; height:auto;">
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <p class="text-center"><strong>Price: £{{ retro_shirt.price }}</strong> </p>
+            <p class="text-center">{{ retro_shirt.description }}</p>
+            <p class="text-center">{{ retro_shirt.environmental_explanation }}</p>
+            <p></p>
+            <form method="post" action="{{ url_for('addToBasket', shirtID=retro_shirt.id) }}">
+                {{ form.hidden_tag() }}
+                <label class="input-group-text" for="quantity">Quantity</label>
+                {{ form.quantity(class="form-control") }}
+                <button type="submit" class="btn btn-primary" style="background-color: black; width: 100%;">Add to Basket</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
